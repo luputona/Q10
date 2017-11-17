@@ -26,14 +26,11 @@ void Player::Init()
 	SetPlayerString("°‚","°„  °‡  °„","¢∏°ﬁ°·°‡°·°ﬁ¢∫");
 }
 void Player::Update(clock_t time)
-{
-	//¿Œµ¶Ω∫ √ ±‚»≠
-	int check = 0;
-
+{	
 	for (int i = 0; i < m_bulletPool.GetAmountPool(); i++)
 	{
 		m_pBulletObj = m_bulletPool.GetPooledObject(i);
-
+		
 		if (m_pBulletObj->GetActive())
 		{
 			pBullet = m_pBulletObj->GetObjects();
@@ -42,16 +39,11 @@ void Player::Update(clock_t time)
 			if (pBullet->GetValue() >= DEFAULT_BULLET_SIZE)
 			{				
 				m_pBulletObj->SetActive(false);
-			}			
-			check++;
+			}
 		}		
 	}
 
-	 //For Test
-	if (check == 0)
-	{
-		m_index = 0;
-	}
+	
 }
 
 void Player::Fire()
@@ -69,8 +61,7 @@ void Player::Fire()
 			pBullet->SetValue(0);
 
 			m_pBulletObj->SetActive(true);
-		}		
-
+		}
 		//Bullet *pBt = pObj->GetObjects();
 
 		/*m_pBulletObj->SetIndex(m_index++);
@@ -79,7 +70,8 @@ void Player::Fire()
 		//pBullet->SetPosition(GetPosition()->x, GetPosition()[0].y - 1);
 		//pBullet->SetOldTime(clock());
 		//pBullet->SetIsReady(false);
-	}
+	}	
+	
 }
 
 void Player::Draw()
@@ -116,9 +108,7 @@ void Player::Draw()
 			pBullet->Draw();
 		}
 	}
-
-
-
+	
 	//¡¬«• √‚∑¬
 	sprintf(str[0], " ¿Ãµø ¡¬«•1 : %d, %d  %d", GetPosition()[0].x, GetPosition()[0].y, GetCenterPos()[0].x);
 	pScreen->Print(60, 2, str[0]);

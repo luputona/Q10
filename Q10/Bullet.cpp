@@ -18,9 +18,9 @@ Bullet::~Bullet()
 void Bullet::Init()
 {
 	//총알 초기화
-	SetIsReady(true);
+	//SetIsReady(true);
 	SetPosition(pPlayer->GetPosition()->x, pPlayer->GetPosition()[0].y - 1);
-	SetMoveTime(10);
+	SetMoveTime(30);
 
 }
 
@@ -43,7 +43,7 @@ void Bullet::Update(clock_t CurTime, Object<Bullet> *pObj)
 	SetValue(GetValue() + 1);
 	
 	pObj = new Object<Bullet>;
-	sc.Print(80, 20, "y가 영보다작을대");
+	
 	//여기다가 충돌 체크
 	//발사 상태
 	if (!pObj->GetActive())
@@ -55,7 +55,7 @@ void Bullet::Update(clock_t CurTime, Object<Bullet> *pObj)
 				SetPosition(GetPosition().x, --GetPosition().y);
 				SetOldTime(CurTime);				
 			}
-			else if(GetPosition().y <=0 )
+			else// if(GetPosition().y <=0 )
 			{			
 				pObj->SetActive(true);
 				Reset();
@@ -95,9 +95,6 @@ void Bullet::Update(clock_t CurTime, Object<Bullet> *pObj)
 			//적 hp 감소 기능 추가
 		}
 	}
-
-	cout << GetValue() << endl;
-	cout << GetIndex() << endl;
 
 }
 
