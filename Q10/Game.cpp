@@ -4,13 +4,9 @@
 #include<Windows.h>
 using namespace std;
 
-extern Player *pPlayer;
-extern Enemy *pEnemy;
-extern Screen *pScreen;
-extern Bullet *pBullet;
-
 Game::Game()
 {
+	
 }
 
 Game::~Game()
@@ -19,6 +15,11 @@ Game::~Game()
 
 void Game::Init()
 {
+	//pPlayer = new Player;
+	//pBullet = new Bullet;
+	//pScreen = new Screen;
+	//pEnemy = new Enemy;
+
 	StageInfo stageInfo[] = {
 		{1, 1000 * 20, 1, 20, 5, 100, 1}
 
@@ -36,29 +37,29 @@ void Game::Init()
 	gameData.limitTime = pInfo->limitTime;
 	gameData.nTotalEnemy = pInfo->nEnemyTotalCnt;
 
-	pPlayer->Init();
-	pEnemy->Init(stageInfo[0]);
-	pBullet->Init();
+	Player::GetInstance()->Init();
+	Enemy::GetInstance()->Init(pInfo[0]);
+	Bullet::GetInstance()->Init();
 }
 
 void Game::Update()
 {
 	clock_t CurTime = clock();
 
-	pEnemy->Update(CurTime);
-	pPlayer->Update(CurTime);
+	Enemy::GetInstance()->Update(CurTime);
+	Player::GetInstance()->Update(CurTime);
 	
 }
 
 void Game::Render()
 {
-	pScreen->Clear();
+	Screen::GetInstance()->Clear();
 
 	
-	//pEnemy->Draw();
-	pPlayer->Draw();
-	//pBullet->Draw();
-	pScreen->Flipping();
+	Enemy::GetInstance()->Draw();
+	Player::GetInstance()->Draw();
+	
+	Screen::GetInstance()->Flipping();
 }
 
 void Game::Release()
@@ -93,7 +94,7 @@ int Game::GetKeyEvent()
 
 void Game::KeyProcess()
 {	
-	pPlayer->Fire();
-	pPlayer->Move();
+	Player::GetInstance()->Fire();
+	Player::GetInstance()->Move();
 	
 }

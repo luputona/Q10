@@ -7,6 +7,7 @@
 #include"Enemy.h"
 #include"Screen.h"
 #include"Bullet.h"
+#include"Singleton.h"
 
 
 #define MSG_MAX 100
@@ -49,11 +50,11 @@ struct GameData
 	char strTime[MSG_MAX];
 };
 
-class Game
+class Game : public Singleton<Game>
 {
 private:
-	GameData gameData;
 	StageInfo *pInfo;
+	GameData gameData;
 	/*Bullet &bullet;
 	Player &player;
 	Enemy &enemy;

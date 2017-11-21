@@ -1,9 +1,10 @@
 #include "Enemy.h"
 #include"Game.h"
 
-extern Screen *pScreen;
+
 Enemy::Enemy()
 {
+	return;
 }
 
 
@@ -13,6 +14,7 @@ Enemy::~Enemy()
 
 void Enemy::Init(StageInfo & info)
 {
+	pScreen = new Screen;
 	SetPosition(info.nEnemyPostX, info.nEnemyPostY); //초기 위치값
 	SetLength(info.nEnemyPostLen);					 //적의 기본 길이 1
 	SetMoveTime(info.moveTime);						//100ms 단위로 움직이도록 설정
@@ -55,8 +57,7 @@ void Enemy::Update(clock_t curTime)
 		int nLen = GetLength() * 2 + 1;
 
 		SetOldTime(curTime);
-		if (GetPosition().x + GetDistance() >= 0 &&
-			((GetLineX(nLen - 1) + 3) + GetDistance()) <= GAME_MAX_WIDTH)
+		if (GetPosition().x + GetDistance() >= 0 &&	((GetLineX(nLen - 1) + 3) + GetDistance()) <= GAME_MAX_WIDTH)
 		{
 			SetPosition(GetPosition().x + GetDistance(), GetPosition().y);
 
@@ -73,7 +74,10 @@ void Enemy::Update(clock_t curTime)
 }
 
 void Enemy::SetPosition(int x, int y)
-{
+{	if (x == 0 && y == 0)
+	{
+		return;
+	}
 	enemyData.pos.x = x;
 	enemyData.pos.y = y;
 }

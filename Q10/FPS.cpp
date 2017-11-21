@@ -1,7 +1,6 @@
 #pragma warning(disable : 4996)
 #include "FPS.h"
 
-extern Screen *pScreen;
 
 FPS::FPS()
 {

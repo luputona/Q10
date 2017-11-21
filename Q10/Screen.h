@@ -1,8 +1,9 @@
 #pragma once
 #include<Windows.h>
+#include"Singleton.h"
 #define GAME_MAX_WIDTH 60
 #define GAME_MAX_HEIGHT 30
-class Screen
+class Screen : public Singleton<Screen>
 {
 public:
 	Screen();

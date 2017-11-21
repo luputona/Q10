@@ -7,12 +7,10 @@
 #define PLAYER_BODY 8
 #define PLAYER_TAIL 6
 
-extern Screen *pScreen;
-extern Bullet *pBullet;
-
 Player::Player() : m_bulletPool(DEFAULT_BULLET_SIZE)
 {
 	m_index = 0;
+	
 }
 
 Player::~Player()
@@ -21,25 +19,48 @@ Player::~Player()
 
 void Player::Init()
 {	
+	pScreen = new Screen;
+	
 	SetPosition(10, 22, 10, 23, 10, 24);
 	SetCenterPosition(0, 0, 4, 1, 6, 2);
 	SetPlayerString("△","▲  □  ▲","◀◇■□■◇▶");
+
+
+	//bullet초기화 
+	for (int i = 0; i < m_bulletPool.GetAmountPool(); i++)
+	{
+		Object<Bullet> *pPooled = m_bulletPool.GetPooledObject(i);
+
+		if (pPooled != NULL)
+		{
+			Bullet *pobj = pPooled->GetObjects();
+			pobj->Init();
+		}
+	}
+
+
 }
 void Player::Update(clock_t time)
 {	
+	//bullet 갱신
 	for (int i = 0; i < m_bulletPool.GetAmountPool(); i++)
 	{
 		m_pBulletObj = m_bulletPool.GetPooledObject(i);
 		
-		if (m_pBulletObj->GetActive())
+		if (m_pBulletObj != NULL && m_pBulletObj->GetActive())
 		{
-			pBullet = m_pBulletObj->GetObjects();
-			pBullet->Update(time, m_pBulletObj);
+			Bullet *pObj = m_pBulletObj->GetObjects();
+			pObj->Update(time, m_pBulletObj);
 
-			if (pBullet->GetValue() >= DEFAULT_BULLET_SIZE)
-			{				
+			if (pObj->GetCollCheck() == true)
+			{
 				m_pBulletObj->SetActive(false);
 			}
+			else
+			{
+				m_pBulletObj->SetActive(true);
+			}
+		
 		}		
 	}
 
@@ -48,28 +69,19 @@ void Player::Update(clock_t time)
 
 void Player::Fire()
 {	
+	//bullet 발사
 	if (GetAsyncKeyState(VK_SPACE))
 	{
 		m_pBulletObj = m_bulletPool.GetPooledObject();
-		pBullet = m_pBulletObj->GetObjects();
-
-		if (m_pBulletObj->GetActive() == false)
+		
+		if (m_pBulletObj != NULL)
 		{
-			pBullet->SetPosition(GetPosition()->x, GetPosition()[0].y - 1);
-			pBullet->SetOldTime(clock());
-			pBullet->SetIndex(m_index++);
-			pBullet->SetValue(0);
-
 			m_pBulletObj->SetActive(true);
+			Bullet *pBullet = m_pBulletObj->GetObjects();
+			pBullet->SetCollCheck(false);
+			pBullet->SetPosition(GetPosition()->x, GetPosition()[0].y - 1);
+			pBullet->SetOldTime(clock());		
 		}
-		//Bullet *pBt = pObj->GetObjects();
-
-		/*m_pBulletObj->SetIndex(m_index++);
-		m_pBulletObj->SetValue(0);*/
-
-		//pBullet->SetPosition(GetPosition()->x, GetPosition()[0].y - 1);
-		//pBullet->SetOldTime(clock());
-		//pBullet->SetIsReady(false);
 	}	
 	
 }
@@ -97,18 +109,19 @@ void Player::Draw()
 			pScreen->Print(printX[i], GetPosition()[i].y, GetPlayerString()[i]);
 		}
 	}
-	
+
+	//bullet 그리기
 	for (int i = 0; i < m_bulletPool.GetAmountPool(); i++)
 	{
-		m_pBulletObj = m_bulletPool.GetPooledObject(i);
+		Object<Bullet> * pPooled = m_bulletPool.GetPooledObject(i);
 
-		if (m_pBulletObj->GetActive())
+		if (pPooled != NULL && pPooled->GetActive())
 		{
-			pBullet = m_pBulletObj->GetObjects();
-			pBullet->Draw();
+			Bullet * pObj = pPooled->GetObjects();
+			pObj->Draw();
 		}
 	}
-	
+
 	//좌표 출력
 	sprintf(str[0], " 이동 좌표1 : %d, %d  %d", GetPosition()[0].x, GetPosition()[0].y, GetCenterPos()[0].x);
 	pScreen->Print(60, 2, str[0]);

@@ -2,6 +2,7 @@
 #include"Player.h"
 #include"Screen.h"
 #include<ctime>
+#include"Singleton.h"
 #define LINE_X_MAX 7
 
 struct EnemyData
@@ -17,7 +18,7 @@ struct EnemyData
 
 struct StageInfo;
 
-class Enemy
+class Enemy : public Singleton<Enemy>
 {
 public:
 	Enemy();
@@ -45,6 +46,7 @@ public:
 
 private:
 	EnemyData enemyData;
+	Screen *pScreen;
 	
 };
 

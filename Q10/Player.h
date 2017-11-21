@@ -4,6 +4,7 @@
 #include<conio.h>
 #include<ctime>
 #include"ObjectPool.h"
+#include"Singleton.h"
 #include"Screen.h"
 
 
@@ -25,12 +26,14 @@ struct PlayerData
 };
 
 class Bullet;
-class Player
+class Player : public Singleton<Player>
 {
 private:
 	PlayerData playerData;
 	ObjectPool<Bullet> m_bulletPool;
 	Object<Bullet> *m_pBulletObj;
+	Screen *pScreen;
+	//Bullet *pBullet;
 
 	int m_index;
 public:

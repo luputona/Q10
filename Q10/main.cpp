@@ -4,24 +4,15 @@
 #include"Player.h"
 #include"Enemy.h"
 #include"Bullet.h"
+#include"Singleton.h"
 #include<ctime>
-
-Screen *pScreen;
-Player *pPlayer;
-Enemy *pEnemy;
-Bullet *pBullet;
-Game *pGame;
-
 
 
 void main()
 {
-	pScreen = new Screen;
-	pPlayer = new Player;
-	pEnemy = new Enemy;
-	pBullet = new Bullet;
-	pGame = new Game;
-	
+	Screen *pScreen = Screen::GetInstance();
+	Game *pGame = Game::GetInstance();
+
 	//ÃÊ±âÈ­
 
 	pScreen->Init();
