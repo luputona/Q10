@@ -60,7 +60,7 @@ void Bullet::Update(clock_t CurTime, Object<Bullet> *pObj)
 
 	if (GetPosition().y >= 0)
 	{		
-		SetCollCheck(false);		
+		SetCollCheck(false);
 	}
 	
 	//여기다가 충돌 체크

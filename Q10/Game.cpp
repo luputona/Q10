@@ -15,11 +15,6 @@ Game::~Game()
 
 void Game::Init()
 {
-	//pPlayer = new Player;
-	//pBullet = new Bullet;
-	//pScreen = new Screen;
-	//pEnemy = new Enemy;
-
 	StageInfo stageInfo[] = {
 		{1, 1000 * 20, 1, 20, 5, 100, 1}
 

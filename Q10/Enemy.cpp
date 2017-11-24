@@ -2,7 +2,7 @@
 #include"Game.h"
 
 
-Enemy::Enemy()
+Enemy::Enemy() : m_bulletPool(DEFAULT_BULLET_SIZE)
 {
 	return;
 }
@@ -20,7 +20,10 @@ void Enemy::Init(StageInfo & info)
 	SetMoveTime(info.moveTime);						//100ms 단위로 움직이도록 설정
 	SetOldTime(clock());							//
 	SetDistance(info.nDist);						//골대가 100ms 마다 움직이는 거리, 1
+	SetHp(10000);
 
+	enemyData.fireTime = rand() % 1000 + 2000;
+	enemyData.oldFireTime = clock();
 	int nLen = GetLength() * 2 + 1;
 
 	//bitstream
@@ -71,6 +74,29 @@ void Enemy::Update(clock_t curTime)
 			SetDistance(GetDistance() * -1);
 		}
 	}
+
+	//발사 
+	if (curTime - enemyData.oldFireTime > enemyData.fireTime )
+	{
+		Fire();
+		enemyData.oldFireTime = curTime;
+		enemyData.fireTime = rand() % 1000 + 3000;
+	}
+}
+
+void Enemy::Fire()
+{
+
+	Object<Bullet> *pObj= m_bulletPool.GetPooledObject();
+
+	if (pObj != NULL)
+	{
+		pObj->SetActive(true);
+		Bullet *pBullet1 = pObj->GetObjects();
+		pBullet1->SetCollCheck(false);
+		pBullet1->SetPosition(GetPosition().x, GetPosition().y + 2);
+		pBullet1->SetOldTime(clock());
+	}
 }
 
 void Enemy::SetPosition(int x, int y)
@@ -106,6 +132,7 @@ void Enemy::SetHp(int hp)
 {
 	enemyData.nHp = hp;
 }
+
 
 void Enemy::SetLineX(int idx, int val)
 {

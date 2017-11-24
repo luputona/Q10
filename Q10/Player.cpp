@@ -59,8 +59,7 @@ void Player::Update(clock_t time)
 			else
 			{
 				m_pBulletObj->SetActive(true);
-			}
-		
+			}		
 		}		
 	}
 

@@ -10,6 +10,8 @@ struct EnemyData
 	Position pos;
 	clock_t moveTime;
 	clock_t oldTime;
+	clock_t fireTime;
+	clock_t oldFireTime;
 	int nLength;
 	int nLineX[LINE_X_MAX];
 	int nDist;
@@ -35,6 +37,7 @@ public:
 	void SetDistance(int dist);
 	void SetHp(int hp);
 
+	void Fire();
 	void SetLineX(int idx, int val);
 	Position &GetPosition();
 	clock_t GetMoveTime();
@@ -47,6 +50,7 @@ public:
 private:
 	EnemyData enemyData;
 	Screen *pScreen;
-	
+	ObjectPool<Bullet> m_bulletPool;
+	Object<Bullet> *m_pBulletObj;
 };
 
